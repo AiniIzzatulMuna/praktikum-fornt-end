@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiket Anggota — Pendaftaran Ekstrakurikuler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="stage">
+    <div class="ticket" id="ticket">
+
+      <!-- ================= STUB KIRI ================= -->
+      <section class="stub">
+        <div class="stub__top">
+          <span class="stub__badge" aria-hidden="true">
+            <svg viewBox="0 0 48 48" width="30" height="30" fill="none">
+              <path d="M24 4 L29 18 L44 18 L32 27 L37 42 L24 33 L11 42 L16 27 L4 18 L19 18 Z"
+                stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <p class="stub__eyebrow">Tiket Anggota</p>
+        </div>
+
+        <h1 class="stub__title">Ekskul<br>Sign&nbsp;Up</h1>
+
+        <p class="stub__desc">Satu formulir, satu tempat di kegiatan pilihanmu. Isi dengan data yang benar sebelum tiket ini distempel sah.</p>
+
+        <div class="stub__meta">
+          <div>
+            <span class="stub__label">No. Seri</span>
+            <span class="stub__value" id="serial">EK-0000</span>
+          </div>
+          <div>
+            <span class="stub__label">Tahun Ajaran</span>
+            <span class="stub__value">2026 / 2027</span>
+          </div>
+        </div>
+
+        <div class="stub__barcode" aria-hidden="true"></div>
+      </section>
+
+      <!-- ============== GARIS SOBEKAN ============== -->
+      <div class="perforation" aria-hidden="true"></div>
+
+      <!-- ================= FORM KANAN ================= -->
+      <section class="panel">
+
+        <div class="stamp" id="stamp" aria-hidden="true">Terdaftar</div>
+
+        <form id="regForm" novalidate>
+
+          <div class="field" data-field="nama">
+            <label for="nama">Nama Lengkap</label>
+            <input type="text" id="nama" name="nama" placeholder="Tulis nama lengkapmu" autocomplete="name">
+            <p class="field__hint">Minimal 3 karakter.</p>
+            <p class="field__msg" role="alert"></p>
+          </div>
+
+          <div class="field" data-field="email">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="nama@gmail.com" autocomplete="email">
+            <p class="field__hint">Gunakan format email yang aktif.</p>
+            <p class="field__msg" role="alert"></p>
+          </div>
+
+          <div class="field-row">
+            <div class="field" data-field="password">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" placeholder="Minimal 8 karakter" autocomplete="new-password">
+              <p class="field__hint">Minimal 8 karakter.</p>
+              <p class="field__msg" role="alert"></p>
+            </div>
+
+            <div class="field" data-field="konfirmasi">
+              <label for="konfirmasi">Konfirmasi Password</label>
+              <input type="password" id="konfirmasi" name="konfirmasi" placeholder="Ulangi password" autocomplete="new-password">
+              <p class="field__hint">Harus sama dengan password.</p>
+              <p class="field__msg" role="alert"></p>
+            </div>
+          </div>
+
+          <div class="field" data-field="ekskul">
+            <label for="ekskul">Pilihan Ekstrakurikuler</label>
+            <select id="ekskul" name="ekskul">
+              <option value="" disabled selected>Pilih salah satu kegiatan</option>
+              <option value="basket">Volly</option>
+              <option value="futsal">Bahasa Jepang</option>
+              <option value="paduan-suara">Paduan Suara</option>
+              <option value="pramuka">Pramuka</option>
+              <option value="pmr">PMR</option>
+              <option value="english-club">MTQ</option>
+              <option value="robotika">Rohis</option>
+              <option value="seni-tari">Seni Tari</option>
+              <option value="jurnalis">Jurnalis</option>
+            </select>
+            <p class="field__hint">Pilih satu kegiatan yang paling kamu minati.</p>
+            <p class="field__msg" role="alert"></p>
+          </div>
+
+          <button type="submit" class="submit" id="submitBtn">
+            <span>Daftar Sekarang</span>
+          </button>
+
+          <p class="form__note" id="formNote">Semua kolom wajib diisi dengan benar sebelum tiket dapat dicetak.</p>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <!-- ================= LOKET TANYA (CHATBOT) ================= -->
+  <button class="chat-toggle" id="chatToggle" aria-expanded="false" aria-controls="chatPanel">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true">
+      <path d="M4 5h16v11H9l-5 4V5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+    </svg>
+    <span>Loket tanya</span>
+  </button>
+
+  <aside class="chat" id="chatPanel" aria-label="Loket tanya pendaftaran" hidden>
+    <header class="chat__head">
+      <span class="chat__avatar" aria-hidden="true">KT</span>
+      <div class="chat__ident">
+        <p class="chat__name">Kak Tiket</p>
+        <p class="chat__status" id="chatStatus">Penjaga loket pendaftaran</p>
+      </div>
+      <button class="chat__icon" id="chatSetupBtn" aria-expanded="false" aria-controls="chatSetup" aria-label="Pengaturan kunci AI">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="chat__icon" id="chatClose" aria-label="Tutup loket tanya">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="chat__setup" id="chatSetup" hidden>
+      <p class="chat__setup-note">Isi kunci API agar Kak Tiket bisa menjawab topik apa pun. Kunci disimpan di browser ini saja.</p>
+      <label for="setupProvider">Penyedia</label>
+      <select id="setupProvider">
+        <option value="gemini">Google Gemini</option>
+        <option value="openrouter">OpenRouter</option>
+        <option value="groq">Groq</option>
+      </select>
+      <label for="setupKey">Kunci API</label>
+      <input type="password" id="setupKey" placeholder="Tempel kunci di sini" autocomplete="off">
+      <label for="setupModel">Model (opsional)</label>
+      <input type="text" id="setupModel" placeholder="gemini-2.0-flash" autocomplete="off">
+      <div class="chat__setup-aksi">
+        <button type="button" id="setupSave">Simpan</button>
+        <button type="button" id="setupClear" class="is-ghost">Hapus</button>
+      </div>
+    </div>
+
+    <div class="chat__log" id="chatLog" role="log" aria-live="polite"></div>
+
+    <div class="chat__chips" id="chatChips"></div>
+
+    <form class="chat__compose" id="chatForm" novalidate>
+      <label class="sr-only" for="chatInput">Pertanyaanmu</label>
+      <input type="text" id="chatInput" placeholder="Tanya soal pendaftaran…" autocomplete="off">
+      <button type="submit" class="chat__send" aria-label="Kirim pertanyaan">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+          <path d="M4 12l16-8-6 8 6 8-16-8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </form>
+  </aside>
+
+<script src="script.js"></script>
+</body>
+</html>

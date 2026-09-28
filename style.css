@@ -1,0 +1,619 @@
+/* =========================================================
+   TOKEN DESAIN
+   Konsep: "Tiket Keanggotaan" — mendaftar ekskul terasa seperti
+   mengambil tiket masuk ke sebuah kegiatan.
+========================================================= */
+:root{
+  --ink:        #12172B;   /* teks utama & panel gelap */
+  --ink-soft:   #4A5068;   /* teks sekunder */
+  --paper:      #F4F6F5;   /* dasar tiket */
+  --paper-dim:  #E4E8E7;   /* garis & input */
+  --stage:      #7380b3;   /* latar panggung */
+  --gold:       #FFB100;   /* aksen fokus / interaktif */
+  --teal:       #1F8A70;   /* valid */
+  --teal-bg:    #E4F3EE;
+  --coral:      #E4572E;   /* tidak valid */
+  --coral-bg:   #FBE7E0;
+
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body:    "Public Sans", sans-serif;
+
+  --radius: 20px;
+}
+
+*{ box-sizing: border-box; }
+
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+}
+
+body{
+  background: var(--stage);
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255,177,0,0.10), transparent 40%),
+    radial-gradient(circle at 88% 82%, rgba(31,138,112,0.14), transparent 45%);
+  font-family: var(--font-body);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.stage{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* =========================================================
+   TIKET
+========================================================= */
+.ticket{
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 8px 8px 0 rgba(255,177,0,0.9), 8px 8px 0 2px var(--ink);
+  overflow: hidden;
+}
+
+/* ---------- STUB (kiri) ---------- */
+.stub{
+  flex: 0 0 260px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 34px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+}
+
+.stub__top{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stub__badge{
+  color: var(--gold);
+  display: inline-flex;
+}
+
+.stub__eyebrow{
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.stub__title{
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  line-height: 1.05;
+  margin: 0;
+  font-weight: 700;
+}
+
+.stub__desc{
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #C3C8DA;
+  max-width: 30ch;
+}
+
+.stub__meta{
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px dashed #3B4160;
+}
+
+.stub__label{
+  display: block;
+  font-size: 0.68rem;
+  color: #8992B3;
+  margin-bottom: 2px;
+}
+
+.stub__value{
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+}
+
+.stub__barcode{
+  height: 30px;
+  margin-top: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--paper) 0 2px,
+    transparent 2px 4px,
+    var(--paper) 4px 7px,
+    transparent 7px 8px,
+    var(--paper) 8px 9px,
+    transparent 9px 12px
+  );
+  opacity: 0.85;
+}
+
+/* ---------- PERFORASI ---------- */
+.perforation{
+  position: relative;
+  width: 0;
+  flex: 0 0 auto;
+  border-left: 2px dashed #B9C0C6;
+}
+.perforation::before,
+.perforation::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 22px;
+  background: var(--stage);
+  border-radius: 50%;
+}
+.perforation::before{ top: -11px; }
+.perforation::after{ bottom: -11px; }
+
+/* ---------- PANEL FORM (kanan) ---------- */
+.panel{
+  flex: 1 1 auto;
+  padding: 34px 36px;
+  position: relative;
+  min-width: 0;
+}
+
+form{ display: flex; flex-direction: column; gap: 18px; }
+
+.field-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.field{ display: flex; flex-direction: column; gap: 6px; }
+
+label{
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+input, select{
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 11px 13px;
+  border: 2px solid var(--paper-dim);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 120ms ease, background-color 120ms ease;
+  width: 100%;
+}
+
+select{ appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2312172B' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+input:focus, select:focus{
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(255,177,0,0.18);
+}
+
+.field__hint{
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+}
+
+.field__msg{
+  margin: 0;
+  font-size: 0.78rem;
+  min-height: 1.1em;
+  font-weight: 600;
+}
+
+/* status valid / invalid */
+.field.is-valid input,
+.field.is-valid select{
+  border-color: var(--teal);
+  background: var(--teal-bg);
+}
+.field.is-valid .field__hint{ display:none; }
+.field.is-valid .field__msg{
+  color: var(--teal);
+}
+.field.is-valid .field__msg::before{ content: "✓ "; }
+
+.field.is-invalid input,
+.field.is-invalid select{
+  border-color: var(--coral);
+  background: var(--coral-bg);
+}
+.field.is-invalid .field__hint{ display:none; }
+.field.is-invalid .field__msg{
+  color: var(--coral);
+}
+.field.is-invalid .field__msg::before{ content: "✕ "; }
+
+/* ---------- TOMBOL ---------- */
+.submit{
+  margin-top: 6px;
+  border: 2px solid var(--ink);
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 13px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+.submit:hover{
+  transform: translate(-2px,-2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.submit:active{
+  transform: translate(0,0);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.submit:focus-visible{
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.form__note{
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* ---------- STEMPEL SUKSES ---------- */
+.stamp{
+  position: absolute;
+  top: 28px;
+  right: 30px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--teal);
+  border: 3px solid var(--teal);
+  border-radius: 10px;
+  padding: 6px 14px;
+  transform: rotate(-8deg) scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+.stamp.show{
+  animation: stampIn 420ms cubic-bezier(.34,1.56,.64,1) forwards;
+}
+@keyframes stampIn{
+  0%   { transform: rotate(-8deg) scale(0);   opacity: 0; }
+  60%  { transform: rotate(-8deg) scale(1.15); opacity: 1; }
+  100% { transform: rotate(-8deg) scale(1);   opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .submit, .stamp{ transition:none; animation:none !important; }
+  .stamp.show{ opacity:1; transform: rotate(-8deg) scale(1); }
+}
+
+/* =========================================================
+   RESPONSIF
+========================================================= */
+@media (max-width: 720px){
+  .ticket{ flex-direction: column; }
+  .stub{ flex: none; }
+  .perforation{
+    width: auto;
+    height: 0;
+    border-left: none;
+    border-top: 2px dashed #B9C0C6;
+  }
+  .perforation::before, .perforation::after{
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .perforation::before{ left: -11px; }
+  .perforation::after{ left: auto; right: -11px; }
+  .field-row{ grid-template-columns: 1fr; }
+  .panel{ padding: 30px 22px; }
+  .stamp{ top: 18px; right: 18px; font-size: 0.9rem; }
+}
+
+@media (max-width: 420px){
+  .stub__title{ font-size: 1.7rem; }
+}
+/* =========================================================
+   LOKET TANYA (CHATBOT)
+   Gaya mengikuti tiket: kertas terang, garis tebal, bayangan padat.
+========================================================= */
+.sr-only{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+
+.chat-toggle{
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 18px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+.chat-toggle:hover{
+  transform: translate(-2px,-2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.chat-toggle:active{
+  transform: translate(0,0);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.chat-toggle:focus-visible{
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+}
+.chat-toggle[aria-expanded="true"]{ display: none; }
+
+.chat{
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 50;
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(560px, calc(100vh - 48px));
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  box-shadow: 8px 8px 0 rgba(255,177,0,0.9), 8px 8px 0 2px var(--ink);
+  overflow: hidden;
+}
+.chat[hidden]{ display: none; }
+
+.chat__head{
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 14px 14px 14px 16px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.chat__avatar{
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.chat__ident{ flex: 1 1 auto; min-width: 0; }
+
+.chat__name{
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+.chat__status{
+  margin: 2px 0 0;
+  font-size: 0.72rem;
+  color: #8992B3;
+}
+
+.chat__icon{
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--paper);
+  cursor: pointer;
+}
+.chat__icon:hover{ background: #262C49; }
+.chat__icon:focus-visible{ outline: 2px solid var(--gold); outline-offset: 2px; }
+.chat__icon[aria-expanded="true"]{ background: #262C49; color: var(--gold); }
+
+/* ---------- pengaturan kunci AI ---------- */
+.chat__setup{
+  padding: 14px 16px;
+  background: #fff;
+  border-bottom: 2px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.chat__setup[hidden]{ display: none; }
+.chat__setup-note{
+  margin: 0 0 4px;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+.chat__setup label{ font-size: 0.74rem; }
+.chat__setup input,
+.chat__setup select{ padding: 8px 10px; font-size: 0.85rem; }
+.chat__setup-aksi{ display: flex; gap: 8px; margin-top: 8px; }
+.chat__setup-aksi button{
+  flex: 1 1 auto;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.82rem;
+  background: var(--gold);
+  color: var(--ink);
+  cursor: pointer;
+}
+.chat__setup-aksi .is-ghost{ background: #fff; }
+.chat__setup-aksi button:focus-visible{ outline: 3px solid var(--teal); outline-offset: 2px; }
+
+.bubble__note{
+  margin-top: 8px !important;
+  padding-top: 6px;
+  border-top: 1px dashed var(--paper-dim);
+  font-size: 0.74rem;
+  color: var(--coral);
+}
+.bubble code{
+  background: var(--paper-dim);
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-size: 0.82em;
+}
+
+.chat__log{
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px 16px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bubble{
+  max-width: 84%;
+  padding: 10px 13px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+}
+.bubble p{ margin: 0 0 6px; }
+.bubble p:last-child{ margin-bottom: 0; }
+.bubble ul{ margin: 4px 0 0; padding-left: 18px; }
+.bubble li{ margin-bottom: 2px; }
+
+.bubble--bot{
+  align-self: flex-start;
+  background: #fff;
+  border-bottom-left-radius: 4px;
+}
+.bubble--user{
+  align-self: flex-end;
+  background: var(--gold);
+  border-bottom-right-radius: 4px;
+  font-weight: 500;
+}
+
+.bubble--typing{
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 13px;
+}
+.bubble--typing i{
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ink-soft);
+  animation: blip 900ms ease-in-out infinite;
+}
+.bubble--typing i:nth-child(2){ animation-delay: 150ms; }
+.bubble--typing i:nth-child(3){ animation-delay: 300ms; }
+@keyframes blip{
+  0%,100%{ opacity: .25; transform: translateY(0); }
+  50%    { opacity: 1;   transform: translateY(-3px); }
+}
+
+.chat__chips{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 16px 0;
+}
+.chip{
+  border: 2px solid var(--paper-dim);
+  background: #fff;
+  color: var(--ink-soft);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.chip:hover{ border-color: var(--ink); color: var(--ink); }
+.chip:focus-visible{ outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.chat__compose{
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px 16px;
+}
+.chat__compose input{ flex: 1 1 auto; }
+
+.chat__send{
+  flex: 0 0 auto;
+  width: 44px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: var(--teal);
+  color: #fff;
+  cursor: pointer;
+}
+.chat__send:hover{ background: #19725c; }
+.chat__send:focus-visible{ outline: 3px solid var(--gold); outline-offset: 2px; }
+
+@media (max-width: 480px){
+  .chat{
+    right: 12px;
+    left: 12px;
+    bottom: 12px;
+    width: auto;
+    max-height: calc(100vh - 24px);
+  }
+  .chat-toggle{ right: 16px; bottom: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .chat-toggle{ transition: none; }
+  .bubble--typing i{ animation: none; opacity: .6; }
+}
